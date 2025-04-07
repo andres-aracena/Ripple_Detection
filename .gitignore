@@ -1,0 +1,20 @@
+# Archivos de entorno
+.env
+.venv
+ripple_env/
+
+# Archivos de Anaconda
+*.conda
+*.ipynb_checkpoints/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# PyCharm
+.idea/
+
+# Ignorar carpetas específicas
+data/
+
