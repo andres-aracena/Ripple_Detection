@@ -86,10 +86,10 @@ for name, filtered_signal in filtered_signals.items():
 # Convertir a DataFrame y guardar en CSV
 df = pd.DataFrame(metrics, columns=["Filtro", "MSE (Error Cuadrático Medio)", "SNR (Relación Señal-Ruido)",
                                     "Correlación de Pearson", "Signal Distortion", "SDR (Relación Señal-Distorsión)"])
-csv_path = os.path.join(file_dir, "filtros_orden4.csv")
-df.to_csv(csv_path, index=False)
+csv_filename = os.path.join(file_dir, "processed_data/filtros_orden4.csv")
+df.to_csv(csv_filename, index=False)
 
-print(f"Resultados guardados en {csv_path}")
+print(f"Resultados guardados en {csv_filename}")
 
 # Imprimir resultados
 for _, row in df.iterrows():

@@ -79,7 +79,7 @@ csv_samples = int(csv_duration * fs)
 csv_df = signal_df.iloc[:csv_samples]
 
 # Guardar los datos en un archivo CSV
-csv_filename = os.path.join(file_dir, f"channels_5s_{filename}.csv")
+csv_filename = os.path.join(file_dir, f"5s_{filename}.csv")
 csv_df.to_csv(csv_filename, index=False)
 print(f"Archivo guardado con los primeros 5 segundos en: {csv_filename}")
 

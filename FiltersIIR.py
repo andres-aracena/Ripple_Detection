@@ -26,7 +26,9 @@ def calculate_sdr(original_signal, filtered_signal):
     return 10 * np.log10(signal_power / noise_power) if noise_power > 0 else np.inf
 
 # Set directory and file
-data_dir = "C:/Users/Andres/OneDrive/Documentos/Anaconda/Ripple_Detection/data"
+dir = "C:/Users/Andres/OneDrive/Documentos/Anaconda/Ripple_Detection"
+file_dir = os.path.join(dir, "processed_data")
+data_dir = os.path.join(dir, "data")
 filename = "datafile001.ns6"
 file_path = os.path.join(data_dir, filename)
 
@@ -90,8 +92,8 @@ for name, filtered_signal in filtered_signals.items():
 # Convertir a DataFrame y guardar en CSV
 df = pd.DataFrame(metrics, columns=["Filtro", "MSE (Error Cuadrático Medio)", "SNR (Relación Señal-Ruido)",
                                     "Correlación de Pearson", "Signal Distortion", "SDR (Relación Señal-Distorsión)"])
-csv_path = os.path.join(data_dir, "filtros_resultados.csv")
-df.to_csv(csv_path, index=False)
+csv_filename = os.path.join(file_dir, "processed_data/filtros_resultados.csv")
+df.to_csv(csv_filename, index=False)
 
 print(f"Resultados guardados en {csv_path}")
 

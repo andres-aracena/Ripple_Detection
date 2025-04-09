@@ -5,12 +5,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import neo
 from scipy.signal import butter, cheby2, hilbert, sosfiltfilt, freqz_sos
+from scipy.ndimage import gaussian_filter1d
 
 # Set directory and file
-dir = "C:/Users/Andres/OneDrive/Documentos/Anaconda/Ripple_Detection"
-file_dir = os.path.join(dir, "processed_data")
-data_dir = os.path.join(dir, "data")
-filename = "datafile001.ns6"
+file_dir = "processed_data"
+data_dir = "data"
+filename = "datafile002.ns6"
 file_path = os.path.join(data_dir, filename)
 
 if not os.path.exists(file_path):
@@ -40,6 +40,10 @@ filtered_data = sosfiltfilt(sos, data_np)
 
 # Compute envelope
 envelope = cp.abs(cp.array(hilbert(filtered_data)))
+envelope_np = cp.asnumpy(envelope)
+EnvelopeSmoothingSD = 0.004 * fs
+envelope_smoothed = gaussian_filter1d(envelope_np, EnvelopeSmoothingSD, mode = 'constant')
+envelope = cp.array(envelope_smoothed)
 
 # Threshold: 75th percentile + 3 std deviations
 threshold = cp.percentile(envelope, 75) + 3 * cp.std(envelope)
@@ -113,10 +117,9 @@ print(f"Eventos detectados guardados en 'ripples2_{filename}.csv'.")
 
 # Convert data to numpy for plotting
 time_array = np.arange(len(signal_data)) / fs
-envelope_np = cp.asnumpy(envelope)
 
 # Compute rolling standard deviation
-rolling_std = pd.Series(envelope_np).rolling(window=post_ripple_gap_samples, center=True).std().fillna(0)
+rolling_std = pd.Series(envelope_smoothed).rolling(window=post_ripple_gap_samples, center=True).std().fillna(0)
 
 # Prepare data for plotting
 signal_df = pd.DataFrame({
@@ -124,7 +127,7 @@ signal_df = pd.DataFrame({
     #'original': cp.asnumpy(signal_data),
     'filtered': cp.asnumpy(filtered_data),
     'threshold': cp.asnumpy(threshold),
-    'envelope': envelope_np,
+    'envelope': envelope_smoothed,
     'deviation': rolling_std
 })
 
@@ -136,7 +139,8 @@ fig, axes = plt.subplots(2, 2, figsize=(14, 9))
 axes = axes.flatten()
 
 ylim_range = [(-200, 200), (-100, 100), (-100, 100), (-100, 100)]
-xlim_range = [(0, signal_df['time'].max()), (70, 80), (75, 75.5), (75.2, 75.4)]
+#xlim_range = [(0, signal_df['time'].max()), (70, 80), (75, 75.5), (75.2, 75.4)]
+xlim_range = [(0, signal_df['time'].max()), (60, 70), (67.25, 67.75), (67.25, 67.5)]
 
 for i, ax in enumerate(axes):
     #ax.plot(signal_df['time'], signal_df['original'], color='black', alpha=0.6, label='Señal Original')

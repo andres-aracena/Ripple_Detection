@@ -10,7 +10,7 @@ from scipy.signal import butter, cheby2, hilbert, sosfiltfilt, freqz_sos
 dir = "C:/Users/Andres/OneDrive/Documentos/Anaconda/Ripple_Detection"
 file_dir = os.path.join(dir, "processed_data")
 data_dir = os.path.join(dir, "data")
-filename = "datafile001.ns6"
+filename = "datafile002.ns6"
 file_path = os.path.join(data_dir, filename)
 
 if not os.path.exists(file_path):
@@ -136,7 +136,8 @@ fig, axes = plt.subplots(2, 2, figsize=(14, 9))
 axes = axes.flatten()
 
 ylim_range = [(-200, 200), (-100, 100), (-100, 100), (-100, 100)]
-xlim_range = [(0, signal_df['time'].max()), (70, 80), (75, 75.5), (75.2, 75.4)]
+#xlim_range = [(0, signal_df['time'].max()), (70, 80), (75, 75.5), (75.2, 75.4)]
+xlim_range = [(0, signal_df['time'].max()), (60, 70), (67.25, 67.75), (67.25, 67.5)]
 
 for i, ax in enumerate(axes):
     #ax.plot(signal_df['time'], signal_df['original'], color='black', alpha=0.6, label='Señal Original')
@@ -156,8 +157,8 @@ for i, ax in enumerate(axes):
         ax.axvspan(xmin=event['start'], xmax=event['end'], color='cyan', alpha=0.3)
 
     # Show movement
-    for start, end in movement_windows:
-        ax.axvspan(xmin=start, xmax=end, color='yellow', alpha=0.3)
+    #for start, end in movement_windows:
+        #ax.axvspan(xmin=start, xmax=end, color='yellow', alpha=0.3)
 
     ax.set_xlim(xlim_range[i])
     ax.set_ylim(-100,100)
