@@ -24,7 +24,7 @@ fs = int(signal.sampling_rate)
 
 # Definir ventana de tiempo en segundos
 start_time = 0  # segundo
-end_time = 300  # segundo
+end_time = 10  # segundo
 start_sample = start_time * fs
 end_sample = end_time * fs
 

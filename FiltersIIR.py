@@ -45,21 +45,21 @@ if np.any(np.isnan(signal_data)) or np.any(np.isinf(signal_data)):
     raise ValueError("La señal original contiene valores NaN o Inf. Verifica los datos antes de filtrar.")
 
 # Parámetros de la señal
-lowcut = 80
-highcut = 220
+lowcut = 100
+highcut = 200
 nyquist = 0.5 * fs
 output = 'sos'
 
 # Definir filtros IIR con diferentes configuraciones
 iir_filters = {
-    "Butterworth_4": butter(4, [lowcut / nyquist, highcut / nyquist], btype='band', output=output),
-    "Butterworth_2": butter(2, [lowcut / nyquist, highcut / nyquist], btype='band', output=output),
+    "Butterworth_4": butter(8, [lowcut / nyquist, highcut / nyquist], btype='band', output=output),
+    #"Butterworth_2": butter(2, [lowcut / nyquist, highcut / nyquist], btype='band', output=output),
     "Chebyshev1_4": cheby1(4, 0.3, [lowcut / nyquist, highcut / nyquist], btype='band', output=output),
-    "Chebyshev1_2": cheby1(2, 0.6, [110 / nyquist, 180 / nyquist], btype='band', output=output),
+    #"Chebyshev1_2": cheby1(2, 0.6, [110 / nyquist, 180 / nyquist], btype='band', output=output),
     "Chebyshev2_4": cheby2(4, 40, [70 / nyquist, 260 / nyquist], btype='band', output=output),
-    "Chebyshev2_2": cheby2(2, 30, [50 / nyquist, 300 / nyquist], btype='band', output=output),
+    #"Chebyshev2_2": cheby2(2, 30, [50 / nyquist, 300 / nyquist], btype='band', output=output),
     "Elliptic_4": ellip(4, 0.1, 40, [lowcut / nyquist, highcut / nyquist], btype='band', output=output),
-    "Elliptic_2": ellip(2, 0.1, 50, [110 / nyquist, 170 / nyquist], btype='band', output=output),
+    #"Elliptic_2": ellip(2, 0.1, 50, [110 / nyquist, 170 / nyquist], btype='band', output=output),
 }
 
 # Aplicar los filtros

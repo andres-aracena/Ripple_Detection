@@ -7,9 +7,12 @@ import neo
 from scipy.signal import butter, cheby2, filtfilt, hilbert
 
 # Set directory and file
-data_dir = "C:/Users/Andres/OneDrive/Documentos/Anaconda/Ripple_Detection"
-filename = "data/datafile003.ns6"
+dir = "C:/Users/Andres/OneDrive/Documentos/Anaconda/Ripple_Detection"
+file_dir = os.path.join(dir, "processed_data")
+data_dir = os.path.join(dir, "data")
+filename = "datafile001.ns6"
 file_path = os.path.join(data_dir, filename)
+
 
 if not os.path.exists(file_path):
     raise FileNotFoundError(f"El archivo {filename} no se encuentra en {data_dir}")
@@ -100,8 +103,9 @@ event_df = pd.DataFrame({
 })
 
 # Guardar en CSV
-event_df.to_csv("ripple_events_optimized.csv", index=False)
-print("Eventos detectados con gaps corregidos guardados en 'ripple_events_optimized.csv'.")
+csv_filename = os.path.join(file_dir, f"ripples_{filename}.csv")
+event_df.to_csv(csv_filename, index=False)
+print(f"Eventos detectados guardados en 'ripples_{filename}.csv'.")
 
 # Convert data to numpy for plotting
 time_array = np.arange(len(signal_data)) / fs
